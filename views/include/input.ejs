@@ -1,7 +1,7 @@
 <% if(item.type === "file") { %>
     <div class="flex flex-col justify-center w-full mb-5">
         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray" for="image">Marriage image</label>
-        <input value="<%= item.value %>" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 pr-5" type="file">
+        <input data="<%= item.value %>" value="<%= item.value %>" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 pr-5" type="file">
     </div> 
 <% } else if(item.type === "checkbox") { %>
 
