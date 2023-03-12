@@ -87,8 +87,6 @@ const updatePost = async (req, res) => {
       { new: true }
     );
 
-    console.log(updateData);
-
     res.status(200).json({ success: true });
   } catch (err) {
     console.error("error from update post", err.message);
