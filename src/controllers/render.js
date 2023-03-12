@@ -343,6 +343,14 @@ const users = async (req, res) => {
   }
 };
 
+const about = (req, res) => {
+  res.render("pages/about", { user: req.user })
+}
+
+const contact = (req, res) => {
+  res.render("pages/contact", { user: req.user })
+}
+
 module.exports = {
   login,
   home,
@@ -352,4 +360,6 @@ module.exports = {
   pendingPost,
   users,
   profile,
+  about,
+  contact
 };
