@@ -23,7 +23,10 @@ async function deleteUser(id) {
 }
 
 // like post
-async function likePost(id) {
+async function likePost(id, userId) {
+  console.log(userId);
+  if (!userId) return (location.href = "/auth/google");
+
   const data = await fetch(`/post/like/${id}`, { method: "PUT" });
   const isLiked = await data.json();
 
@@ -109,17 +112,7 @@ function updatePost(e) {
   const state = document.getElementById("state").value;
   const district = document.getElementById("district").value;
   const date = document.getElementById("date").value;
-  const image = document.getElementById("image");
   const verified = document.getElementById("verified").checked;
-
-  // Convert image to base64
-  const file = image.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onloadend = function () {
-    const base64Image = reader.result.split(",")[1];
 
     // Create data object
     const data = {
@@ -128,7 +121,6 @@ function updatePost(e) {
       state,
       district,
       date,
-      image: base64Image,
       verified,
     };
 

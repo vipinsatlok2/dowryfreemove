@@ -14,7 +14,7 @@
     <section>
         <h1 class="text-3xl font-bold text-black-300">Pending Posts (<%= totalData  %>)</h1>
     </section>
-      <%- include("../include/cards.ejs", {data, options : true}) %>
+      <%- include("../include/cards.ejs", {data, options : true, paramsUserId : "", userId : user._id}) %>
       <%- include("../include/pagination.ejs", {isProfileUrl : "pending", paramsUserId : ""}) %>
   </main>
 

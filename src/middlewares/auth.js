@@ -6,13 +6,13 @@ const isAuth = async (req, res, next) => {
   try {
     // get cookie
     const token = req.cookies.auth;
-    if (!token) return res.redirect("/login");
+    if (!token) return res.redirect("/auth/google");
 
     // payload
     const payload = await jwt.verify(token, envData.jwt);
 
     const user = await model.findById(payload._id);
-    if (!user) return res.redirect("/login");
+    if (!user) return res.redirect("/auth/google");
 
     // genrate new token
     const newToken = jwt.sign(
@@ -41,7 +41,7 @@ const isAuth = async (req, res, next) => {
     // next fucntion call
     next();
   } catch (err) {
-    return res.redirect("/login");
+    return res.redirect("/auth/google");
   }
 };
 

@@ -57,7 +57,7 @@ const addPost = async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (err) {
-    console.error("error from adding post", err.message);
+    console.error("error from adding post", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
@@ -65,26 +65,11 @@ const addPost = async (req, res) => {
 const updatePost = async (req, res) => {
   try {
     // getting data from user
-    let { she, he, district, tehsil, state, date, image, verified } = req.body;
+    let { she, he, district, tehsil, state, date, verified } = req.body;
 
     // find post
     const post = await model.findById(req.params.id);
     if (!post) return res.status(404).json({ success: false });
-
-    // setting image and buffer
-    const imageData = Buffer.from(image, "base64");
-    const imagePath = path.join(__dirname, "..", "..", "images", "image.jpg");
-
-    // save image to server
-    fs.writeFile(imagePath, imageData, (err) => {
-      if (err) return res.status(500).json({ success: false });
-    });
-
-    // save image to cloud
-    const imageSaveCloudnary = await cloudinary.uploader.upload(imagePath, {
-      public_id: post.publicId,
-      overwrite: true,
-    });
 
     // save to database
     const updateData = await model.findByIdAndUpdate(
@@ -98,8 +83,6 @@ const updatePost = async (req, res) => {
         verified,
         date,
         userId: req.user._id,
-        image: imageSaveCloudnary.url,
-        publicId: post.publicId,
       },
       { new: true }
     );
