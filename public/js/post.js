@@ -23,14 +23,12 @@ async function deleteUser(id) {
 }
 
 // like post
-async function likePost(id, userId) {
-  console.log(userId);
+async function likePosts(id, userId) {
   if (!userId) return (location.href = "/auth/google");
 
   const data = await fetch(`/post/like/${id}`, { method: "PUT" });
   const isLiked = await data.json();
 
-  console.log();
   if (isLiked.success) {
     const likeTag = document.getElementById(`${id}-like`);
     likeTag.innerText = +likeTag.innerText + +isLiked.like;
@@ -114,28 +112,27 @@ function updatePost(e) {
   const date = document.getElementById("date").value;
   const verified = document.getElementById("verified").checked;
 
-    // Create data object
-    const data = {
-      he,
-      she,
-      state,
-      district,
-      date,
-      verified,
-    };
-
-    // Send data as JSON using fetch
-    const url = `/post/${id}`;
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-
-    sendData(url, options, `/update/${id}`);
+  // Create data object
+  const data = {
+    he,
+    she,
+    state,
+    district,
+    date,
+    verified,
   };
+
+  // Send data as JSON using fetch
+  const url = `/post/${id}`;
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  sendData(url, options, `/update/${id}`);
 }
 
 // send data to server
