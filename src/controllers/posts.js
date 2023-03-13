@@ -38,7 +38,7 @@ const addPost = async (req, res) => {
       if (err) return res.status(500).json({ success: false });
       
           // save image to cloud
-          imageSaveCloudnary = await cloudinary.uploader.upload(imagePath, {
+          cloudinary.uploader.upload(imagePath, {
             public_id: publicId,
           }, (err, data) => {
             imageSaveCloudnary = data
