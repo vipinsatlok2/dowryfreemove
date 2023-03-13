@@ -38,7 +38,7 @@ const addPost = async (req, res) => {
       console.log("1", err, data)
 
       // save image to cloud
-      cloudinary.uploader.upload(`image.${publicId}.jpg`, {
+      cloudinary.uploader.upload(`tmp/image.${publicId}.jpg`, {
         public_id: publicId,
       }, (err, data) => {
         console.log("2", err, data)
