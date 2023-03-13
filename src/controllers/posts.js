@@ -37,18 +37,22 @@ const addPost = async (req, res) => {
       if (err) return res.status(500).json({ success: false });
       console.log("1", err, data)
 
-      // save image to cloud
-      cloudinary.uploader.upload(`tmp/image.${publicId}.jpg`, {
-        public_id: publicId,
-      }, (err, data) => {
-        console.log("2", err, data)
+      fs.readFile(imagePath, "utf-8", (err, data) => {
+        console.log(err, data)
 
-        // delete image file from server
-        fs.unlink(imagePath, (err, data) => {
-          if (err) return res.status(500).json({ success: false });
-          console.log("3", err, data)
+        // save image to cloud
+        cloudinary.uploader.upload(`tmp/image.${publicId}.jpg`, {
+          public_id: publicId,
+        }, (err, data) => {
+          console.log("2", err, data)
+
+          // delete image file from server
+          fs.unlink(imagePath, (err, data) => {
+            if (err) return res.status(500).json({ success: false });
+            console.log("3", err, data)
+          });
         });
-      });
+      })
     });
 
     // save to database
