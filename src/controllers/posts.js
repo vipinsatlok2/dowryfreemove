@@ -19,12 +19,18 @@ const addPost = async (req, res) => {
 
     if (req.user.role === "user") verified = false;
 
-    // setting image and buffer
-    const imageData = Buffer.from(image, "base64");
-    const imagePath = path.join(__dirname, "..", "..", "images", "image.jpg");
-
     // genrate public id save for cloudnary
     const publicId = Math.ceil(Math.random() * Date.now());
+
+    // setting image and buffer
+    const imageData = Buffer.from(image, "base64");
+    const imagePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "images",
+      `${publicId}.jpg`
+    );
 
     // save image to server
     fs.writeFile(imagePath, imageData, (err) => {
@@ -72,7 +78,7 @@ const updatePost = async (req, res) => {
     if (!post) return res.status(404).json({ success: false });
 
     // save to database
-    const updateData = await model.findByIdAndUpdate(
+    await model.findByIdAndUpdate(
       req.params.id,
       {
         he,

@@ -4,7 +4,7 @@
     <% if(data.length) { %>
 
         <% data.map(item => { %>
-            <%- include("./card.ejs", { item, options, paramsUserId, userId }) %>
+            <%- include("./card.ejs", {data, user, item, options, paramsUserId, userId }) %>
         <% }) %>
         
     <% } else { %>

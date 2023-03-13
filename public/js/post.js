@@ -31,7 +31,13 @@ async function likePosts(id, userId) {
 
   if (isLiked.success) {
     const likeTag = document.getElementById(`${id}-like`);
+    const svgTag = document.getElementById(`${id}-thumb`);
     likeTag.innerText = +likeTag.innerText + +isLiked.like;
+    if (isLiked.like == 1) {
+      svgTag.style.fill = "white";
+    } else {
+      svgTag.style.fill = "none";
+    }
   } else {
     location.href = "/";
   }
@@ -53,6 +59,8 @@ function addPost(e) {
   e.preventDefault();
 
   addButton.innerText = "Uploading...";
+  addButton.classList.replace("bg-blue-700", "bg-blue-400");
+  addButton.classList.add("pointer-events-none");
 
   // Get data from DOM
   const he = document.getElementById("he").value;
@@ -102,6 +110,8 @@ function updatePost(e) {
   e.preventDefault();
 
   updateButton.innerText = "Updating...";
+  updateButton.classList.replace("bg-blue-700", "bg-blue-400");
+  updateButton.classList.add("pointer-events-none");
   const id = location.pathname.split("update/")[1];
 
   // Get data from DOM

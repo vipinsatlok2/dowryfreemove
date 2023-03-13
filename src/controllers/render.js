@@ -11,6 +11,18 @@ function createHeader(headTitle, headDec, headImage, headUrl) {
   };
 }
 
+function isLiked(req, data) {
+  const liked = data.find((item) => {
+    if (!item) return null;
+    const userId = String(req.user._id).split("(")[0];
+    const userLikeId = String(item._id).split("(")[0];
+    return userId === userLikeId;
+  });
+
+  if (!liked) return false;
+  return true;
+}
+
 async function getDataToDataBase(req, res, model, query, populate = "") {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -140,8 +152,6 @@ const profile = async (req, res) => {
         `/user/${paramsUser._id}`
       ),
     };
-
-    console.log(sendData.headImage);
 
     res.render("pages/profile", sendData);
   } catch (err) {
