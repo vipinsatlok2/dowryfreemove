@@ -32,19 +32,20 @@ const addPost = async (req, res) => {
       `image.${publicId}.jpg`
     );
 
+    let imageSaveCloudnary
     // save image to server
-    fileVale.writeFile(imagePath, imageData, (err) => {
+    fileVale.writeFile(imagePath, imageData, async (err) => {
       if (err) return res.status(500).json({ success: false });
-    });
-
-    // save image to cloud
-    const imageSaveCloudnary = await cloudinary.uploader.upload(imagePath, {
-      public_id: publicId,
-    });
-
-    // delete image file from server
-    fileVale.unlink(imagePath, (err) => {
-      if (err) return res.status(500).json({ success: false });
+      
+          // save image to cloud
+          imageSaveCloudnary = await cloudinary.uploader.upload(imagePath, {
+            public_id: publicId,
+          });
+      
+         // delete image file from server
+          fileVale.unlink(imagePath, (err) => {
+            if (err) return res.status(500).json({ success: false });
+          });
     });
 
     // save to database
