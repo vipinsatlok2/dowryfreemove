@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary").v2;
-const fileVale = require("@cyclic.sh/s3fs");
+const fs = require("@cyclic.sh/s3fs");
 const path = require("path");
 const { envData } = require("../../config");
 const model = require("../models/posts");
@@ -32,35 +32,33 @@ const addPost = async (req, res) => {
       `image.${publicId}.jpg`
     );
 
-    let imageSaveCloudnary
     // save image to server
-    fileVale.writeFile(imagePath, imageData, (err) => {
+    fs.writeFile(imagePath, imageData, async (err) => {
       if (err) return res.status(500).json({ success: false });
-      
-          // save image to cloud
-          cloudinary.uploader.upload(imagePath, {
-            public_id: publicId,
-          }, (err, data) => {
-            imageSaveCloudnary = data
-           // delete image file from server
-          fileVale.unlink(imagePath, (err) => {
-            if (err) return res.status(500).json({ success: false });
-            });
-          });
-    });
 
-    // save to database
-    await model.create({
-      he,
-      she,
-      district,
-      state,
-      tehsil,
-      date,
-      userId: req.user._id,
-      verified,
-      image: imageSaveCloudnary.url,
-      publicId,
+      // save image to cloud
+      const imageSaveCloudnary = await cloudinary.uploader.upload(imagePath, {
+        public_id: publicId,
+      });
+
+      // delete image file from server
+      fs.unlink(imagePath, async (err) => {
+        if (err) return res.status(500).json({ success: false });
+
+        // save to database
+        await model.create({
+          he,
+          she,
+          district,
+          state,
+          tehsil,
+          date,
+          userId: req.user._id,
+          verified,
+          image: imageSaveCloudnary.url,
+          publicId,
+        });
+      });
     });
 
     res.status(200).json({ success: true });
