@@ -28,8 +28,8 @@ const addPost = async (req, res) => {
       __dirname,
       "..",
       "..",
-      "images",
-      `${publicId}.jpg`
+      "tmp",
+      `image.${publicId}.jpg`
     );
 
     // save image to server
