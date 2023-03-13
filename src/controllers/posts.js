@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary").v2;
-const fs = require("@cyclic.sh/s3fs");
+const fileVale = require("@cyclic.sh/s3fs");
 const path = require("path");
 const { envData } = require("../../config");
 const model = require("../models/posts");
@@ -33,7 +33,7 @@ const addPost = async (req, res) => {
     );
 
     // save image to server
-    fs.writeFile(imagePath, imageData, (err) => {
+    fileVale.writeFile(imagePath, imageData, (err) => {
       if (err) return res.status(500).json({ success: false });
     });
 
@@ -43,7 +43,7 @@ const addPost = async (req, res) => {
     });
 
     // delete image file from server
-    fs.unlink(imagePath, (err) => {
+    fileVale.unlink(imagePath, (err) => {
       if (err) return res.status(500).json({ success: false });
     });
 
